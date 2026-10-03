@@ -1,0 +1,26 @@
+# Data and trained models (kept out of the repo)
+data/
+models/
+
+# Model artifacts that may be written elsewhere
+*.pth
+*.pt
+*.onnx
+*.engine
+*.trt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Logs and outputs
+*.log
+runs/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store

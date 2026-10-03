@@ -65,9 +65,11 @@ Input 3×H×W
 The same workflow was already proven on a CIFAR-10 prototype (85.7% test
 accuracy, trained on the Nano):
 
-1. **Dataset:** face images arranged one folder per identity
-   (`data/train/<name>/*.jpg`, `data/val/<name>/*.jpg`).
-2. **Training:** PyTorch with light augmentation; saves the best checkpoint as `.pth`.
+1. **Dataset:** `data/bcdl-faces/` holds 60 face images (`001.jpeg` …),
+   30 each of Al Pacino and Robert De Niro. Labels are in
+   `data/bcdl-faces/annotations.csv` (columns `imagename,person`).
+2. **Training:** PyTorch with light augmentation; saves the best checkpoint as
+   `.pth` under `models/`. Both `data/` and `models/` are git-ignored.
 3. **Evaluation:** accuracy on the validation set and predictions on single images.
 4. **Export:** `torch.onnx.export` with opset 11 and a dynamic batch axis.
 5. **TensorRT:** build an engine with `trtexec` (FP16) and run inference from
