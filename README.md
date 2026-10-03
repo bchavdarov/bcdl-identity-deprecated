@@ -93,5 +93,8 @@ This section will be updated as scripts are added.
 
 ## License
 
-Not yet specified. Research code; all rights reserved by the author until a
-license is added.
+- **Dataset (bcdl-faces):** see [LICENSE.md](LICENSE.md). The annotations are
+  CC BY 4.0. The images belong to their copyright holders and may be used only
+  for non-commercial research.
+- **Code:** not yet specified. All rights reserved by the author until a code
+  license is added.
