@@ -44,16 +44,18 @@ class FacesDataset(Dataset):
         return self.transform(img), label
 
 
-# --- Step 3: Train/validation split, same number of images per actor ---------
+# --- Step 3: Train/validation split, same fraction of each actor's images ----
 
-def split_per_class(samples, val_per_class, seed=0):
+def split_per_class(samples, val_fraction=0.2, seed=0):
     rng = random.Random(seed)            # fixed seed -> same split every run
     train, val = [], []
     for label in sorted({lbl for _, lbl in samples}):
         items = [s for s in samples if s[1] == label]
         rng.shuffle(items)
-        val += items[:val_per_class]
-        train += items[val_per_class:]
+        n_val = round(len(items) * val_fraction)
+        n_val = min(max(n_val, 1), len(items) - 1)   # at least 1 val and 1 train image
+        val += items[:n_val]
+        train += items[n_val:]
     return train, val
 
 
@@ -80,9 +82,9 @@ val_tf = transforms.Compose([
 
 # --- Step 5: DataLoaders -- group samples into batches ------------------------
 
-def make_loaders(root, classes, batch_size=8, val_per_class=6, num_workers=2):
+def make_loaders(root, classes, batch_size=8, val_fraction=0.2, num_workers=2):
     samples = read_annotations(os.path.join(root, 'annotations.csv'), classes)
-    train_s, val_s = split_per_class(samples, val_per_class)
+    train_s, val_s = split_per_class(samples, val_fraction)
 
     train_dl = DataLoader(FacesDataset(root, train_s, train_tf),
                           batch_size=batch_size, shuffle=True, num_workers=num_workers)
